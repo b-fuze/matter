@@ -34,7 +34,7 @@ THEME_DESCRIPTION = (
 
 # Create dirs
 HOME = os.environ["HOME"]
-os.system('''bash -c 'mkdir -p $HOME/grub/{grub.d,boot}';''')
+os.system('''bash -c 'mkdir -p $HOME/grub/{grub.d,boot,defaults}';''')
 
 GRUB_DEFAULTS_PATH = HOME + "/grub/defaults"
 GRUB_SCRIPTS_PATH = HOME + "/grub/grub.d"
