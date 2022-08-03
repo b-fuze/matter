@@ -40,8 +40,9 @@ GRUB_DEFAULTS_PATH = HOME + "/grub/defaults"
 GRUB_SCRIPTS_PATH = HOME + "/grub/grub.d"
 BOOT_GRUB_PATH = HOME + "/grub/boot"
 GRUB_CFG_PATH = f"{BOOT_GRUB_PATH}/grub.cfg"
-GRUB_MKCONFIG_PATH = which("grub-mkconfig") or which("grub2-mkconfig")
-if GRUB_MKCONFIG_PATH is None:
+GRUB_MKCONFIG_PATH = HOME + "/grub/grub-mkconfig"
+ORIG_GRUB_MKCONFIG_PATH = which("grub-mkconfig") or which("grub2-mkconfig")
+if ORIG_GRUB_MKCONFIG_PATH is None:
     error("Could not find grub-mkconfig command file (grub2-mkconfig neither)")
 
 if not exists(GRUB_CFG_PATH):
@@ -49,6 +50,9 @@ if not exists(GRUB_CFG_PATH):
 
 if not exists(GRUB_DEFAULTS_PATH):
     os.system(f"cp /etc/default/grub {GRUB_DEFAULTS_PATH}")
+
+if not exists(GRUB_MKCONFIG_PATH):
+    os.system(f"cp {ORIG_GRUB_MKCONFIG_PATH} {GRUB_MKCONFIG_PATH}")
 
 # if exists("/boot/grub"):
 #     BOOT_GRUB_PATH = "/boot/grub"
