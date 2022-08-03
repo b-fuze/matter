@@ -32,14 +32,27 @@ THEME_DESCRIPTION = (
     "Run this script without arguments for next steps on installing Matter."
 )
 
+# Create dirs
+HOME = os.environ["HOME"]
+os.system('''bash -c 'mkdir -p $HOME/grub/{grub.d,boot}';''')
 
+GRUB_DEFAULTS_PATH = HOME + "/grub/defaults"
+GRUB_SCRIPTS_PATH = HOME + "/grub/grub.d"
+BOOT_GRUB_PATH = HOME + "/grub/boot"
+GRUB_CFG_PATH = f"{BOOT_GRUB_PATH}/grub.cfg"
+GRUB_MKCONFIG_PATH = which("grub-mkconfig") or which("grub2-mkconfig")
+if GRUB_MKCONFIG_PATH is None:
+    error("Could not find grub-mkconfig command file (grub2-mkconfig neither)")
 
-if exists("/boot/grub"):
-    BOOT_GRUB_PATH = "/boot/grub"
-elif exists("/boot/grub2"):
-    BOOT_GRUB_PATH = "/boot/grub2"
-else:
-    error("Could not find your grub's boot path (tried /boot/grub and /boot/grub2)")
+if not exists(GRUB_CFG_PATH):
+    os.system(f"cp /boot/grub/grub.cfg {GRUB_CFG_PATH}")
+
+# if exists("/boot/grub"):
+#     BOOT_GRUB_PATH = "/boot/grub"
+# elif exists("/boot/grub2"):
+#     BOOT_GRUB_PATH = "/boot/grub2"
+# else:
+#     error("Could not find your grub's boot path (tried /boot/grub and /boot/grub2)")
 
 INSTALLER_ABSPATH = os.path.abspath(__file__)
 INSTALLER_NAME = basename(INSTALLER_ABSPATH)
@@ -53,14 +66,6 @@ THEME_DEFAULT_BACKGROUND = "bluegrey-900"
 THEME_DEFAULT_FONT_NAME = "Josefin Sans Regular"
 THEME_DEFAULT_FONT = THEME_DEFAULT_FONT_NAME.replace(" ", "_")
 THEME_DEFAULT_FONT_SIZE = 32
-
-GRUB_DEFAULTS_PATH = "/etc/default/grub"
-GRUB_SCRIPTS_PATH = "/etc/grub.d"
-GRUB_CFG_PATH = f"{BOOT_GRUB_PATH}/grub.cfg"
-GRUB_MKCONFIG_PATH = which("grub-mkconfig") or which("grub2-mkconfig")
-if GRUB_MKCONFIG_PATH is None:
-    error("Could not find grub-mkconfig command file (grub2-mkconfig neither)")
-
 
 THEME_TEMPLATE_PATH = f"{INSTALLER_DIR}/theme.txt.template"
 GRUB_DEFAULTS_TEMPLATE_PATH = f"{INSTALLER_DIR}/grub.template"
