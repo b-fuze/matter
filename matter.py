@@ -154,7 +154,7 @@ def read_cleaned_grub_defaults():
 
 def read_cleaned_grub_mkconfig():
     # Read previous defaults
-    with open(GRUB_MKCONFIG_PATH, "r", newline="") as f:
+    with open(str(GRUB_MKCONFIG_PATH), "r", newline="") as f:
         grub_mkconfig = f.read()
 
     # Remove previous theme defaults
@@ -244,6 +244,8 @@ def convert_icon_svg2png(icon_name, whisper=False):
         converter = magick_convert_svg2png
     elif command == "inkscape":
         converter = inkscape_convert_svg2png
+    else:
+        raise Exception(f"Invalid converter command '{command}'")
 
     exit_code = converter(color, src_path, dst_path, whisper=whisper)
     if exit_code != 0:
@@ -340,7 +342,7 @@ def prepare_source_dir():
     entries = get_entry_names()
     # Do icon count match grub entry count?
     if len(icons) != len(entries):
-        error(
+        non_fatal_error(
             f"You must specify {len(entries)} icons ({len(icons)} provided) for entries:",
             should_exit=False,
         )
@@ -476,7 +478,7 @@ def clean_grub_defaults():
 def clean_grub_mkconfig():
     info(f"Clean {THEME_OVERRIDES_TITLE} from {GRUB_MKCONFIG_PATH}")
     cleaned_grub_mkconfig = read_cleaned_grub_mkconfig()
-    with open(GRUB_MKCONFIG_PATH, "w") as f:
+    with open(str(GRUB_MKCONFIG_PATH), "w") as f:
         f.write(cleaned_grub_mkconfig)
 
 
@@ -626,6 +628,7 @@ def do_patch_grub_cfg_icons(icons):
     # Build new grub cfg with given icons
     new_grub_cfg = ""
     next_seek = 0
+    mend = 0
     for m, i in zip(entries, icons):
         mstart, mend = m.span()
         new_grub_cfg += grub_cfg[next_seek:mstart]
@@ -690,7 +693,7 @@ def do_set_icons(patch_grubcfg):
         )
 
         check_root_or_prompt()
-        with open(GRUB_MKCONFIG_PATH, "w") as f:
+        with open(str(GRUB_MKCONFIG_PATH), "w") as f:
             f.write(new_grub_mkconfig)
 
         info(

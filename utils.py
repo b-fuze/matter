@@ -2,6 +2,7 @@
 
 from subprocess import run, PIPE
 from shutil import which
+from typing import NoReturn
 
 # Logging utils
 
@@ -29,12 +30,16 @@ def info(*lines):
     for line in lines:
         print(f"{color_string('[I] ', fg='cyan')}{line}")
 
-
-def error(*lines, should_exit=True):
+def non_fatal_error(*lines, should_exit=True):
     for line in lines:
         print(f"{color_string('[E] ', fg='lightred')}{line}")
     if should_exit:
         exit(1)
+
+def error(*lines, should_exit=True) -> NoReturn:
+    for line in lines:
+        print(f"{color_string('[E] ', fg='lightred')}{line}")
+    exit(1)
 
 def warning(*lines):
     for line in lines:
