@@ -126,15 +126,16 @@ def check_python_version():
 
 
 def check_root_or_prompt():
-    if os.geteuid() != 0:
-        info("Request root access")
-        exit_code = sh("sudo -v")
-        if exit_code != 0:
-            error("Could not verify root access, you could try with sudo")
-        # Relaunch the program with sudo
-        args = " ".join(sys.argv[1:])
-        child_exit_code = sh(f"sudo {INSTALLER_DIR}/{INSTALLER_NAME} {args}")
-        exit(child_exit_code)  # Propagate exit code
+    pass
+    # if os.geteuid() != 0:
+    #     info("Request root access")
+    #     exit_code = sh("sudo -v")
+    #     if exit_code != 0:
+    #         error("Could not verify root access, you could try with sudo")
+    #     # Relaunch the program with sudo
+    #     args = " ".join(sys.argv[1:])
+    #     child_exit_code = sh(f"sudo {INSTALLER_DIR}/{INSTALLER_NAME} {args}")
+    #     exit(child_exit_code)  # Propagate exit code
 
 
 def delete_dir(directory):
