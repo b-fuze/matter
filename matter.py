@@ -34,7 +34,7 @@ THEME_DESCRIPTION = (
 
 # Create dirs
 HOME = os.environ["HOME"]
-os.system('''bash -c 'mkdir -p $HOME/grub/{grub.d,boot,defaults}';''')
+os.system('''bash -c 'mkdir -p $HOME/grub/{grub.d,boot}';''')
 
 GRUB_DEFAULTS_PATH = HOME + "/grub/defaults"
 GRUB_SCRIPTS_PATH = HOME + "/grub/grub.d"
@@ -46,6 +46,9 @@ if GRUB_MKCONFIG_PATH is None:
 
 if not exists(GRUB_CFG_PATH):
     os.system(f"cp /boot/grub/grub.cfg {GRUB_CFG_PATH}")
+
+if not exists(GRUB_DEFAULTS_PATH):
+    os.system(f"cp /etc/default/grub {GRUB_DEFAULTS_PATH}")
 
 # if exists("/boot/grub"):
 #     BOOT_GRUB_PATH = "/boot/grub"
