@@ -453,7 +453,7 @@ def update_grub_cfg():
         error(
             f"Command for generating grub.cfg not found (tried update-grub, grub-mkconfig and grub2-mkconfig)"
         )
-    command = f"{update_command} -o {GRUB_CFG_PATH}"
+    command = f"sudo {update_command} -o {GRUB_CFG_PATH}; sudo chown $(whoami):$(whoami) {GRUB_CFG_PATH}"
     info(f"Remake grub.cfg with {command}")
     sh(command)
 
