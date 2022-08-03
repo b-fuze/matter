@@ -550,7 +550,7 @@ def do_test():
             "You need grub2-theme-preview for testing",
             "See https://github.com/hartwork/grub2-theme-preview",
         )
-    sh(f"grub2-theme-preview {INSTALLATION_SOURCE_DIR}")
+    sh(f"grub2-theme-preview --resolution 1920x1080 --grub-cfg {GRUB_CFG_PATH} {INSTALLATION_SOURCE_DIR}")
 
 
 def do_install():
